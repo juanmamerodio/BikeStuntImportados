@@ -10,26 +10,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Animación de elementos al hacer scroll ---
-    const animatedElements = document.querySelectorAll('.animate-on-scroll');
+    /**
+     * Configura la animación de elementos al hacer scroll.
+     * Hacemos esta función global (adjuntándola a 'window') para poder
+     * llamarla desde otros scripts (como ofertas.js) cuando se añaden
+     * nuevos elementos dinámicamente.
+     */
+    window.setupScrollAnimations = () => {
+        const animatedElements = document.querySelectorAll('.animate-on-scroll:not(.is-visible)');
 
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.2 // Aumentamos el umbral para que la animación se sienta más reactiva
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.2
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        animatedElements.forEach(element => {
+            observer.observe(element);
+        });
     };
 
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    animatedElements.forEach(element => {
-        observer.observe(element);
-    });
+    // Primera ejecución al cargar la página.
+    window.setupScrollAnimations();
 
 });

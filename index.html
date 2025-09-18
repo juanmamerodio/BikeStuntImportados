@@ -37,58 +37,18 @@
                 </div>
             </div>
         </section>
-        <section id="productos" class="section-alt">
-    <div class="container">
-        <h2 class="section-title animate-on-scroll">Ofertas del Mes</h2>
-        <div class="product-grid">
-
-            <div class="product-card animate-on-scroll">
-                <div class="product-image-sale">
-                    <img src="https://imgs.search.brave.com/11YMwCLDxDVx233b76PIeHVISXrETGUcROncrsknbeY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9odHRw/Mi5tbHN0YXRpYy5j/b20vRF9RX05QXzJY/Xzk5MTg2My1NQ084/MTUzOTQ5ODgzN18x/MjIwMjQtRS53ZWJw" alt="Manubrio Pro-Stunt Titan en oferta">
-                    <span class="sale-badge">OFERTA</span>
-                </div>
-                <div class="product-info-sale">
-                    <h3>Manubrio Pro-Stunt Titan</h3>
-                    <div class="product-pricing">
-                        <span class="original-price">$85.000</span>
-                        <span class="sale-price">$69.990</span>
+<section id="productos" class="section-alt">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">Ofertas del Mes</h2>
+                <!-- Este contenedor ahora se llenará dinámicamente con los productos marcados en tu Google Sheet -->
+                <div id="featured-product-grid" class="product-grid">
+                    <!-- Mensaje de carga inicial para una mejor experiencia de usuario -->
+                    <div class="loader-container" style="grid-column: 1 / -1; text-align: center;">
+                        <p class="catalog-message">Cargando ofertas...</p>
                     </div>
-                    <a href="#" class="cta-button-sale">Comprar ahora</a>
                 </div>
             </div>
-
-            <div class="product-card animate-on-scroll">
-                <div class="product-image-sale">
-                    <img src="https://imgs.search.brave.com/FhDVZ0uJvcv9E6x-AmBd3UNMOVf770pC-twPa7Uh7Lc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9odHRw/Mi5tbHN0YXRpYy5j/b20vRF9RX05QXzJY/XzY4NjQ4NS1NTE04/NTMwMTk5NTk2NV8w/NTIwMjUtVi1hc2ll/bnRvLXBpdm90YWwt/YmljaS1ibXgtZGly/dGp1bXAtc3R1bnQt/eG9sby1mYXQud2Vi/cA" alt="Asiento de Kevlar en oferta">
-                    <span class="sale-badge">OFERTA</span>
-                </div>
-                <div class="product-info-sale">
-                    <h3>Asiento de Kevlar Ultra-Slim</h3>
-                    <div class="product-pricing">
-                        <span class="original-price">$52.500</span>
-                        <span class="sale-price">$44.990</span>
-                    </div>
-                    <a href="#" class="cta-button-sale">Comprar ahora</a>
-                </div>
-            </div>
-
-            <div class="product-card animate-on-scroll">
-                 <div class="product-image-sale">
-                    <img src="https://imgs.search.brave.com/8tAbO8pKj7ZVS_0pxWXVhz1dXlQ6MT-donmgEnMzUE4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9odHRw/Mi5tbHN0YXRpYy5j/b20vRF9RX05QXzJY/Xzg2NTM2Ny1NTEE4/NTM0NzgwNjc3Ml8w/NjIwMjUtRS53ZWJw" alt="Pedales de Aluminio en oferta">
-                    <span class="sale-badge">-15% OFF</span>
-                </div>
-                <div class="product-info-sale">
-                    <h3>Pedales de Plataforma Aluminio</h3>
-                    <div class="product-pricing">
-                        <span class="original-price">$48.000</span>
-                        <span class="sale-price">$40.800</span>
-                    </div>
-                    <a href="#" class="cta-button-sale">Comprar ahora</a>
-                </div>
-            </div>
-
-        </div>
-    </div>
+        </section>
 </section>
         <section id="proyectos">
             <div class="container">
@@ -179,5 +139,6 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="ofertas.js"></script>
 </body>
 </html>

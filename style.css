@@ -268,7 +268,9 @@ body.dark-theme .sale-badge {
     color: var(--color-primary-accent);
     transition: color 0.4s ease;
 }
-
+.product-grid .sale-price {
+    color: var(--color-brazil-green); /* Destaca el precio de oferta */
+}
 /* === CÓDIGO CORREGIDO Y MEJORADO DEL BOTÓN === */
 .cta-button-sale {
     display: block;
@@ -289,6 +291,19 @@ body.dark-theme .sale-badge {
     background-color: var(--color-brazil-yellow);
     /* En el hover, el color del texto debe ser el del fondo principal de la tarjeta (surface) */
     color: var(--color-brazil-green);
+}
+.sale-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: #1d1d1f;
+    color: #ffc700;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    z-index: 2;
 }
 
 /*

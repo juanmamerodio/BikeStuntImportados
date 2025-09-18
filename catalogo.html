@@ -20,10 +20,6 @@
             <a href="index.html" class="logo">Bike Stunt<span>Importados</span></a>
             <nav class="main-nav">
                 <a href="index.html">Inicio</a>
-                <button id="theme-toggle" class="theme-toggle" title="Cambiar tema">
-                    <i class="fa-solid fa-moon icon-moon"></i>
-                    <i class="fa-solid fa-sun icon-sun"></i>
-                </button>
             </nav>
         </div>
     </header>
@@ -31,17 +27,19 @@
     <main>
         <section id="catalog-controls">
             <div class="container">
-                <div class="search-container">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="search-input" placeholder="Buscar por nombre de producto...">
-                </div>
-                <div class="filter-container">
-                    <button class="filter-btn active" data-category="todos">Todos</button>
-                    <button class="filter-btn" data-category="manubrios">Manubrios</button>
-                    <button class="filter-btn" data-category="cubiertas">Cubiertas</button>
-                    <button class="filter-btn" data-category="bicis-completas">Bicis Completas</button>
-                    <button class="filter-btn" data-category="cuadros">Cuadros</button>
-                    <button class="filter-btn" data-category="accesorios">Accesorios</button>
+                <!-- Controles unificados para una mejor experiencia de usuario -->
+                <div class="controls-wrapper">
+                    <div class="search-container">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="search-input" placeholder="Buscar por nombre, marca...">
+                    </div>
+                    <div class="filter-container">
+                         <i class="fa-solid fa-layer-group"></i>
+                        <select id="category-select" class="category-select">
+                            <option value="todos">Todas las categorías</option>
+                            <!-- Las categorías se llenarán dinámicamente con JavaScript -->
+                        </select>
+                    </div>
                 </div>
             </div>
         </section>
@@ -49,7 +47,11 @@
         <section id="product-grid-section">
             <div class="container">
                 <div id="product-grid">
-                    <p class="catalog-message">Cargando productos...</p>
+                    <!-- Spinner de carga para una mejor UX inicial -->
+                    <div class="loader-container">
+                        <div class="spinner"></div>
+                        <p class="catalog-message">Cargando productos...</p>
+                    </div>
                 </div>
                 <div id="no-results" class="catalog-message hidden">
                     <p>😕 No se encontraron productos que coincidan con tu búsqueda.</p>
@@ -64,7 +66,7 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- Usamos el nuevo script del catálogo -->
     <script src="catalogo.js"></script>
 </body>
 </html>

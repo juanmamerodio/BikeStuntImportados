@@ -1,0 +1,186 @@
+/* ======== ESTILOS PARA LA PÁGINA DEL CATÁLOGO ======== */
+
+/* Contenedor de Buscador y Filtros */
+#catalog-controls {
+    padding: 120px 0 40px 0; /* Espacio para el header fijo */
+    background-color: var(--color-surface-alt);
+    transition: var(--transition-color);
+}
+
+#catalog-controls .container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* Barra de Búsqueda */
+.search-container {
+    position: relative;
+}
+
+.search-container i {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    color: var(--color-text-secondary);
+}
+
+#search-input {
+    width: 100%;
+    padding: 15px 20px 15px 50px; /* Espacio para el ícono */
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    font-size: 1rem;
+    font-family: var(--font-body);
+    transition: var(--transition-color), box-shadow 0.3s ease;
+}
+
+#search-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary-accent) 30%, transparent);
+}
+
+/* Filtros de Categoría */
+.filter-container {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto; /* Permite scroll horizontal en móviles */
+    padding-bottom: 10px; /* Espacio para la barra de scroll */
+    -ms-overflow-style: none;  /* IE y Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+.filter-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari y Opera */
+}
+
+.filter-btn {
+    flex-shrink: 0; /* Evita que los botones se encojan */
+    padding: 10px 20px;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    color: var(--color-text-secondary);
+    border-radius: 100px; /* Píldoras */
+    font-family: var(--font-body);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-color), transform 0.2s ease;
+}
+
+.filter-btn:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-primary-accent);
+}
+
+.filter-btn.active {
+    background-color: var(--color-primary-accent);
+    color: var(--color-surface);
+    border-color: var(--color-primary-accent);
+}
+body.dark-theme .filter-btn.active {
+    color: #121212;
+}
+
+/* Grilla de Productos */
+#product-grid-section {
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+#product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+/* Tarjeta de Producto del Catálogo */
+.catalog-product-card {
+    background-color: var(--color-surface);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition-smooth), var(--transition-color);
+}
+.catalog-product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-medium);
+}
+
+.catalog-product-card .product-image-container {
+    width: 100%;
+    padding-top: 100%; /* Imágenes cuadradas */
+    position: relative;
+}
+
+.catalog-product-card img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.catalog-product-card .product-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.product-category-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-primary-accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    transition: color 0.4s ease;
+}
+
+.product-name {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+    flex-grow: 1;
+    color: var(--color-text-primary);
+    transition: color 0.4s ease;
+}
+
+.product-price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 20px;
+    transition: color 0.4s ease;
+}
+
+.view-product-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    text-align: center;
+    text-decoration: none;
+    background-color: var(--color-secondary-accent);
+    color: #1d1d1f;
+    border-radius: 12px;
+    font-weight: 700;
+    transition: transform 0.3s ease, background-color 0.4s ease;
+}
+.view-product-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Mensajes de Carga y Sin Resultados */
+.catalog-message {
+    text-align: center;
+    padding: 40px;
+    color: var(--color-text-secondary);
+    font-size: 1.2rem;
+}
+.hidden {
+    display: none;
+}

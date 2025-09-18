@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - Bike Stunt Importados</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="catalogo.css">
+</head>
+<body>
+
+    <header id="header" class="header">
+        <div class="container">
+            <a href="index.html" class="logo">Bike Stunt<span>Importados</span></a>
+            <nav class="main-nav">
+                <a href="index.html">Inicio</a>
+                <button id="theme-toggle" class="theme-toggle" title="Cambiar tema">
+                    <i class="fa-solid fa-moon icon-moon"></i>
+                    <i class="fa-solid fa-sun icon-sun"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="catalog-controls">
+            <div class="container">
+                <div class="search-container">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="search-input" placeholder="Buscar por nombre de producto...">
+                </div>
+                <div class="filter-container">
+                    <button class="filter-btn active" data-category="todos">Todos</button>
+                    <button class="filter-btn" data-category="manubrios">Manubrios</button>
+                    <button class="filter-btn" data-category="cubiertas">Cubiertas</button>
+                    <button class="filter-btn" data-category="bicis-completas">Bicis Completas</button>
+                    <button class="filter-btn" data-category="cuadros">Cuadros</button>
+                    <button class="filter-btn" data-category="accesorios">Accesorios</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="product-grid-section">
+            <div class="container">
+                <div id="product-grid">
+                    <p class="catalog-message">Cargando productos...</p>
+                </div>
+                <div id="no-results" class="catalog-message hidden">
+                    <p>😕 No se encontraron productos que coincidan con tu búsqueda.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 Bike Stunt Importados. Creado con pasión por el Stunt.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="catalogo.js"></script>
+</body>
+</html>

@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             // Asumimos que las imágenes vienen en columnas separadas y la primera es la principal
             imageUrls: [item.image, item.image2, item.image3, item.image4].filter(Boolean),
-            isOnSale: item.precio_oferta && parseFloat(item.precio_oferta) < parseFloat(item.precio),
+            isOnSale: item.oferta && parseFloat(item.oferta) < parseFloat(item.precio),
         }));
     }
 

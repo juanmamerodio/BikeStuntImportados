@@ -2,13 +2,13 @@
  * @file catalogo.js
  * @description Lógica dinámica para el catálogo de productos de Bike Stunt Importados.
  * @author Tu Nombre (Experto en JS y Marketing)
- * @version 2.1.0
+ * @version 2.2.0
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     
     // --- CONFIGURACIÓN ---
-    const API_URL = 'https://script.google.com/macros/s/AKfycby7Iwe8Y86-sVMy5PNGYhm1fcp4qgJ89VzUWrODes57i-wJCeqXswMn5KYAdRFZMhSPFA/exec'; // Reemplazar con tu URL real
+    const API_URL = 'https://script.google.com/macros/s/AKfycby7Iwe8Y86-sVMy5PNGYhm1fcp4qgJ89VzUWrODes57i-wJCeqXswMn5KYAdRFZMhSPFA/exec'; // Reemplaza con tu URL real
     const placeholderImage = 'https://placehold.co/400x400/f0f0f0/333?text=BSI';
 
     // --- ELEMENTOS DEL DOM ---
@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             price: parseFloat(item.precio) || 0,
             salePrice: item.oferta ? parseFloat(item.oferta) : null,
             imageUrl: item.image || placeholderImage,
+            stock: parseInt(item.stock, 10) || 0, // <-- AÑADIDO
             isOnSale: item.oferta && parseFloat(item.oferta) < parseFloat(item.precio),
         }));
     }
@@ -85,13 +86,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /**
      * Crea el elemento HTML <a> que envuelve toda la tarjeta del producto.
-     * @param {Object} product - El objeto del producto.
-     * @returns {HTMLElement} El elemento <a> de la tarjeta de producto.
+     * AHORA INCLUYE LÓGICA DE STOCK.
      */
     function createProductCardLink(product) {
         const cardLink = document.createElement('a');
-        cardLink.href = `producto.html?id=${product.id}`;
+        cardLink.href = product.stock > 0 ? `producto.html?id=${product.id}` : '#';
         cardLink.className = 'catalog-product-card-link';
+        if (product.stock <= 0) {
+            cardLink.classList.add('out-of-stock');
+        }
 
         const formatPrice = (price) => price.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 });
 
@@ -100,6 +103,17 @@ document.addEventListener('DOMContentLoaded', () => {
             : `<p class="product-price">${formatPrice(product.price)}</p>`;
         
         const saleBadgeHTML = product.isOnSale ? `<span class="sale-badge">OFERTA</span>` : '';
+
+        // --- LÓGICA DE STOCK VISUAL ---
+        let stockHTML = '';
+        if (product.stock > 5) {
+            stockHTML = `<div class="product-stock-status stock-available"><i class="fa-solid fa-check"></i> En Stock</div>`;
+        } else if (product.stock > 0) {
+            stockHTML = `<div class="product-stock-status stock-low"><i class="fa-solid fa-bolt"></i> ¡Últimas unidades!</div>`;
+        } else {
+            stockHTML = `<div class="product-stock-status stock-out"><i class="fa-solid fa-xmark"></i> Agotado</div>`;
+        }
+        // --- FIN LÓGICA DE STOCK ---
 
         cardLink.innerHTML = `
             <div class="catalog-product-card">
@@ -110,10 +124,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="product-info">
                     <span class="product-brand-tag">${product.brand}</span>
                     <h3 class="product-name">${product.name}</h3>
+                    ${stockHTML}
                     <div class="product-pricing">
                         ${priceHTML}
                     </div>
-                    <span class="view-product-btn">Ver Detalles</span>
+                    <span class="view-product-btn">Comprar</span>
                 </div>
             </div>
         `;
@@ -146,3 +161,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initializeCatalog();
 });
+

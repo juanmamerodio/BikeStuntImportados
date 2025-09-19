@@ -36,27 +36,27 @@ body.dark-theme #catalog-controls {
     left: 20px;
     transform: translateY(-50%);
     color: var(--color-text-secondary);
-    pointer-events: none; /* Para que no interfiera con el click del select */
+    pointer-events: none;
 }
 
 #search-input, .category-select {
     width: 100%;
     padding: 15px 20px 15px 50px;
-    border: 1px solid var(--color-border);
+    border: none;
     border-radius: var(--border-radius);
     background-color: var(--color-surface);
     color: var(--color-text-primary);
     font-size: 1rem;
     font-family: var(--font-body);
     transition: var(--transition-color), box-shadow 0.3s ease;
-    -webkit-appearance: none; /* Quita estilos por defecto en iOS */
+    -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
 }
 
 #search-input:focus, .category-select:focus {
     outline: none;
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary-accent) 30%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brazil-green) 30%, transparent);
 }
 
 .category-select {
@@ -75,11 +75,20 @@ body.dark-theme #catalog-controls {
 
 #product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
 }
 
-/* Tarjeta de Producto del Catálogo con mejoras de Marketing */
+/* Enlace de Tarjeta de Producto */
+.catalog-product-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+.catalog-product-card-link.out-of-stock {
+    cursor: not-allowed;
+}
+
 .catalog-product-card {
     background-color: var(--color-surface);
     border-radius: var(--border-radius);
@@ -87,27 +96,26 @@ body.dark-theme #catalog-controls {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: var(--transition-smooth), var(--transition-color);
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInCard 0.5s ease forwards;
+    height: 100%;
+    transition: var(--transition-smooth);
+    opacity: 1;
 }
-
-@keyframes fadeInCard {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.catalog-product-card:hover {
+.catalog-product-card-link:hover .catalog-product-card {
     transform: translateY(-8px);
     box-shadow: var(--shadow-medium);
 }
+.catalog-product-card-link.out-of-stock .catalog-product-card {
+    opacity: 0.6;
+}
+.catalog-product-card-link.out-of-stock:hover .catalog-product-card {
+    transform: none;
+    box-shadow: var(--shadow-soft);
+}
+
 
 .product-image-container {
     width: 100%;
-    padding-top: 100%; /* Imágenes cuadradas */
+    padding-top: 100%;
     position: relative;
     overflow: hidden;
 }
@@ -125,7 +133,6 @@ body.dark-theme #catalog-controls {
     transform: scale(1.05);
 }
 
-/* ¡NUEVO! Badge de Oferta */
 .sale-badge {
     position: absolute;
     top: 15px;
@@ -147,7 +154,6 @@ body.dark-theme #catalog-controls {
     flex-grow: 1;
 }
 
-/* ¡NUEVO! Etiqueta de Marca */
 .product-brand-tag {
     font-size: 0.75rem;
     font-weight: 700;
@@ -168,7 +174,6 @@ body.dark-theme #catalog-controls {
     display: flex;
     align-items: baseline;
     gap: 12px;
-    margin-bottom: 20px;
 }
 
 .original-price {
@@ -185,7 +190,7 @@ body.dark-theme #catalog-controls {
 }
 
 .product-price.sale {
-    color: var(--color-brazil-green); /* Destaca el precio de oferta */
+    color: var(--color-brazil-green);
 }
 
 .view-product-btn {
@@ -206,12 +211,41 @@ body.dark-theme #catalog-controls {
     background-color: var(--color-brazil-green);
 }
 
+/* --- ESTILOS PARA EL STOCK DEL CATÁLOGO --- */
+#product-grid .product-stock-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: auto;
+    margin-bottom: 15px;
+    padding: 6px 10px;
+    border-radius: 8px;
+}
+
+#product-grid .product-stock-status.stock-available {
+    color: var(--color-brazil-green);
+    background-color: #e6f5ec;
+}
+
+#product-grid .product-stock-status.stock-low {
+    color: #e88500;
+    background-color: #fff6e5;
+}
+
+#product-grid .product-stock-status.stock-out {
+    color: #999;
+    background-color: #f5f5f5;
+}
+
+
 /* Mensajes y Loader */
 .catalog-message { text-align: center; padding: 40px; color: var(--color-text-secondary); font-size: 1.2rem; }
 .hidden { display: none; }
 
 .loader-container {
-    grid-column: 1 / -1; /* Ocupa todo el ancho de la grilla */
+    grid-column: 1 / -1;
     text-align: center;
 }
 .spinner {
@@ -219,8 +253,62 @@ body.dark-theme #catalog-controls {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    border-left-color: var(--color-primary-accent);
+    border-left-color: var(--color-brazil-green);
     margin: 20px auto;
     animation: spin 1s ease infinite;
 }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* --- DISEÑO RESPONSIVO PARA EL CATÁLOGO --- */
+@media (max-width: 640px) {
+    /* Hacemos la grilla más compacta en móviles para que quepan 2 columnas */
+    #product-grid {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 15px;
+    }
+
+    /* Reducimos el padding interno de la tarjeta */
+    .product-info {
+        padding: 15px;
+    }
+
+    /* Ajustamos los tamaños de fuente para que no se desborden */
+    .product-name {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+    }
+
+    .product-price {
+        font-size: 1.2rem;
+    }
+    
+    .original-price {
+        font-size: 0.8rem;
+    }
+    
+    .product-pricing {
+        gap: 8px;
+    }
+
+    #product-grid .product-stock-status {
+        font-size: 0.7rem;
+        padding: 4px 8px;
+        margin-bottom: 10px;
+        gap: 4px;
+    }
+
+    .view-product-btn {
+        padding: 10px;
+        font-size: 0.8rem;
+        border-radius: 10px;
+    }
+
+    .sale-badge {
+        font-size: 0.7rem;
+        padding: 4px 8px;
+        border-radius: 6px;
+        top: 10px;
+        left: 10px;
+    }
+}
+

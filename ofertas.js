@@ -1,20 +1,18 @@
 /**
  * @file ofertas.js
  * @description Carga y muestra dinámicamente los productos destacados en la página principal.
- * @version 1.0.0
+ * @version 2.1.0
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     
     // --- CONFIGURACIÓN ---
-    // La misma URL de la API que usa el catálogo.
     const API_URL = 'https://script.google.com/macros/s/AKfycby7Iwe8Y86-sVMy5PNGYhm1fcp4qgJ89VzUWrODes57i-wJCeqXswMn5KYAdRFZMhSPFA/exec'; // Reemplaza con tu URL real
     const placeholderImage = 'https://placehold.co/400x400/f0f0f0/333?text=BSI';
 
     // --- ELEMENTOS DEL DOM ---
     const featuredGrid = document.getElementById('featured-product-grid');
     
-    // Si no existe el contenedor en la página, no continuamos.
     if (!featuredGrid) {
         return;
     }
@@ -26,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const products = await fetchProducts();
             const allProducts = mapProductData(products);
-            // Filtramos solo los productos marcados con el checkpoint "grillaprincipal"
             const featuredProducts = allProducts.filter(p => p.isFeatured);
             
             renderFeaturedProducts(featuredProducts);
@@ -48,16 +45,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /**
      * Mapea los datos crudos a un formato de objeto limpio y consistente.
+     * AHORA INCLUYE ID, MARCA Y STOCK.
      */
     function mapProductData(rawData) {
         return rawData.map(item => ({
+            id: item.id,
             name: item.nombre || 'Producto',
+            brand: item.marca || 'Sin Marca',
             price: parseFloat(item.precio) || 0,
             salePrice: item.oferta ? parseFloat(item.oferta) : null,
             imageUrl: item.image || placeholderImage,
+            stock: parseInt(item.stock, 10) || 0, // <-- AÑADIDO
             isOnSale: item.oferta && parseFloat(item.oferta) < parseFloat(item.precio),
-            // Google Sheets devuelve 'TRUE' para casillas marcadas.
-            isFeatured: item.grillaprincipal === true || item.grillaprincipal === 'TRUE',
+            isFeatured: item.grillaprincipal === true || String(item.grillaprincipal).toUpperCase() === 'TRUE',
         }));
     }
 
@@ -74,25 +74,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const fragment = document.createDocumentFragment();
         products.forEach(product => {
-            const card = createProductCard(product);
-            // Reutilizamos la clase de animación para un efecto de entrada suave.
-            card.classList.add('animate-on-scroll');
-            fragment.appendChild(card);
+            const cardLink = createProductCardLink(product);
+            cardLink.classList.add('animate-on-scroll');
+            fragment.appendChild(cardLink);
         });
         featuredGrid.appendChild(fragment);
         
-        // Es necesario reactivar el observer para que detecte los nuevos elementos.
         if (window.setupScrollAnimations) {
             window.setupScrollAnimations();
         }
     }
 
     /**
-     * Crea el elemento HTML para una tarjeta de producto, reutilizando estilos.
+     * Crea el elemento HTML <a> que envuelve la tarjeta de producto.
+     * AHORA INCLUYE LÓGICA DE STOCK.
      */
-    function createProductCard(product) {
-        const card = document.createElement('div');
-        card.className = 'product-card'; // Clase principal de la tarjeta
+    function createProductCardLink(product) {
+        const cardLink = document.createElement('a');
+        // El enlace se desactiva si no hay stock
+        cardLink.href = product.stock > 0 ? `producto.html?id=${product.id}` : '#';
+        cardLink.className = 'product-card-link';
+        // Se añade una clase para aplicar estilos a productos agotados
+        if (product.stock <= 0) {
+            cardLink.classList.add('out-of-stock');
+        }
 
         const formatPrice = (price) => price.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 });
         
@@ -102,22 +107,37 @@ document.addEventListener('DOMContentLoaded', () => {
             ? `<span class="original-price">${formatPrice(product.price)}</span><span class="sale-price">${formatPrice(product.salePrice)}</span>`
             : `<span class="sale-price">${formatPrice(product.price)}</span>`;
 
-        card.innerHTML = `
-            <div class="product-image-sale">
-                <img src="${product.imageUrl}" alt="${product.name}" onerror="this.onerror=null;this.src='${placeholderImage}';">
-                ${saleBadgeHTML}
-            </div>
-            <div class="product-info-sale">
-                <h3>${product.name}</h3>
-                <div class="product-pricing">
-                    ${priceHTML}
+        // --- LÓGICA DE STOCK VISUAL ---
+        let stockHTML = '';
+        if (product.stock > 5) {
+            stockHTML = `<div class="product-stock-status stock-available"><i class="fa-solid fa-check"></i> En Stock</div>`;
+        } else if (product.stock > 0) {
+            stockHTML = `<div class="product-stock-status stock-low"><i class="fa-solid fa-bolt"></i> ¡Últimas ${product.stock} u.!</div>`;
+        } else {
+            stockHTML = `<div class="product-stock-status stock-out"><i class="fa-solid fa-xmark"></i> Agotado</div>`;
+        }
+        // --- FIN LÓGICA DE STOCK ---
+
+        cardLink.innerHTML = `
+            <div class="product-card">
+                <div class="product-image-sale">
+                    <img src="${product.imageUrl}" alt="${product.name}" onerror="this.onerror=null;this.src='${placeholderImage}';">
+                    ${saleBadgeHTML}
                 </div>
-                <a href="catalogo.html" class="cta-button-sale">Ver en catálogo</a>
+                <div class="product-info-sale">
+                    <span class="product-brand-tag">${product.brand}</span>
+                    <h3>${product.name}</h3>
+                    
+                    <div class="product-pricing">
+                        ${priceHTML}
+                    </div>
+                    ${stockHTML} 
+                </div>
             </div>
         `;
-        return card;
+        return cardLink;
     }
 
-    // --- Inicia el proceso ---
     initializeFeaturedSection();
 });
+

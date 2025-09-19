@@ -1,13 +1,14 @@
 /* ======== CONFIGURACIÓN INICIAL Y VARIABLES ======== */
 :root {
-    --color-background: #F5F5T7; /* Gris claro de Apple */
-    --color-surface: #FFFFFF;
+    --color-background: #f5f5f7; /* Gris claro de Apple */
+    --color-surface: #ffffff;
     --color-text-primary: #1d1d1f; /* Negro de Apple */
     --color-text-secondary: #555;
     
     /* Colores de acento vibrantes */
     --color-brazil-green: #009b3a; 
     --color-brazil-yellow: #ffc700; /* Un amarillo más vibrante y moderno */
+    --color-warning-orange: #e88500;
 
     --font-display: 'Bangers', cursive;
     --font-body: 'Poppins', sans-serif;
@@ -31,14 +32,18 @@ body {
 .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 img { max-width: 100%; display: block; }
 
-/* ======== HEADER ======== */
+/* ======== HEADER (MEJORADO Y GLOBALIZADO) ======== */
 .header {
     padding: 20px 0;
     position: fixed;
     width: 100%;
     z-index: 1000;
-    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+    transition: background-color 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+    background-color: rgba(245, 245, 247, 0.7); /* Color base con transparencia */
+    border-bottom: 1px solid transparent; /* Borde inicial transparente */
 }
+
+/* CAMBIO: Se aplica el efecto de desenfoque y borde al hacer scroll */
 .header.scrolled {
     background-color: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(15px);
@@ -308,7 +313,7 @@ span{
 }
 
 .product-stock-status.stock-low {
-    color: #e88500;
+    color: var(--color-warning-orange);
 }
 
 .product-stock-status.stock-out {
@@ -320,4 +325,3 @@ span{
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 15px; 
 }
-

@@ -2,13 +2,12 @@
  * @file catalogo.js
  * @description Lógica dinámica para el catálogo de productos de Bike Stunt Importados.
  * @author Tu Nombre (Experto en JS y Marketing)
- * @version 2.0.0
+ * @version 2.1.0
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     
     // --- CONFIGURACIÓN ---
-    // URL de la API de Google Apps Script. ¡Asegúrate de que tu spreadsheet esté publicado como app web!
     const API_URL = 'https://script.google.com/macros/s/AKfycby7Iwe8Y86-sVMy5PNGYhm1fcp4qgJ89VzUWrODes57i-wJCeqXswMn5KYAdRFZMhSPFA/exec'; // Reemplazar con tu URL real
     const placeholderImage = 'https://placehold.co/400x400/f0f0f0/333?text=BSI';
 
@@ -19,14 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const noResultsMsg = document.getElementById('no-results');
 
     // --- ESTADO DE LA APLICACIÓN ---
-    let allProducts = []; // Almacenará todos los productos para evitar múltiples llamadas a la API.
+    let allProducts = [];
 
-    /**
-     * Inicializa el catálogo: obtiene los productos y configura los event listeners.
-     */
     async function initializeCatalog() {
         try {
-            const products = await fetchProducts(100);
+            const products = await fetchProducts();
             allProducts = mapProductData(products);
             
             populateCategoryFilter(allProducts);
@@ -39,10 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /**
-     * Obtiene los productos desde la API de Google Sheets.
-     * @returns {Promise<Array>} Una promesa que resuelve a un array de productos.
-     */
     async function fetchProducts() {
         const response = await fetch(API_URL);
         if (!response.ok) {
@@ -51,11 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return response.json();
     }
 
-    /**
-     * Mapea los datos crudos de la API a un formato de objeto más limpio y usable.
-     * @param {Array} rawData - Array de objetos directamente desde la API.
-     * @returns {Array} Array de objetos de producto limpios.
-     */
     function mapProductData(rawData) {
         return rawData.map(item => ({
             id: item.id || Date.now(),
@@ -69,10 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }));
     }
 
-    /**
-     * Popula el menú desplegable de categorías dinámicamente.
-     * @param {Array} products - El array de todos los productos.
-     */
     function populateCategoryFilter(products) {
         const categories = [...new Set(products.map(p => p.category))];
         categories.sort().forEach(category => {
@@ -83,12 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /**
-     * Renderiza los productos en la grilla del DOM.
-     * @param {Array} productsToDisplay - El array de productos a mostrar.
-     */
     function renderProducts(productsToDisplay) {
-        productGrid.innerHTML = ''; // Limpia la grilla antes de renderizar
+        productGrid.innerHTML = ''; 
 
         if (productsToDisplay.length === 0) {
             noResultsMsg.classList.remove('hidden');
@@ -98,82 +77,72 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const fragment = document.createDocumentFragment();
         productsToDisplay.forEach(product => {
-            const card = createProductCard(product);
-            fragment.appendChild(card);
+            const cardLink = createProductCardLink(product);
+            fragment.appendChild(cardLink);
         });
         productGrid.appendChild(fragment);
     }
 
     /**
-     * Crea el elemento HTML para una tarjeta de producto individual.
+     * Crea el elemento HTML <a> que envuelve toda la tarjeta del producto.
      * @param {Object} product - El objeto del producto.
-     * @returns {HTMLElement} El elemento div de la tarjeta de producto.
+     * @returns {HTMLElement} El elemento <a> de la tarjeta de producto.
      */
-    function createProductCard(product) {
-        const card = document.createElement('div');
-        card.className = 'catalog-product-card';
+    function createProductCardLink(product) {
+        const cardLink = document.createElement('a');
+        cardLink.href = `producto.html?id=${product.id}`;
+        cardLink.className = 'catalog-product-card-link';
 
         const formatPrice = (price) => price.toLocaleString('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 });
 
         const priceHTML = product.isOnSale
-            ? `
-                <span class="original-price">${formatPrice(product.price)}</span>
-                <p class="product-price sale">${formatPrice(product.salePrice)}</p>
-              `
+            ? `<span class="original-price">${formatPrice(product.price)}</span><p class="product-price sale">${formatPrice(product.salePrice)}</p>`
             : `<p class="product-price">${formatPrice(product.price)}</p>`;
         
         const saleBadgeHTML = product.isOnSale ? `<span class="sale-badge">OFERTA</span>` : '';
 
-        card.innerHTML = `
-            <div class="product-image-container">
-                ${saleBadgeHTML}
-                <img src="${product.imageUrl}" alt="${product.name}" onerror="this.onerror=null;this.src='${placeholderImage}';">
-            </div>
-            <div class="product-info">
-                <span class="product-brand-tag">${product.brand}</span>
-                <h3 class="product-name">${product.name}</h3>
-                <div class="product-pricing">
-                    ${priceHTML}
+        cardLink.innerHTML = `
+            <div class="catalog-product-card">
+                <div class="product-image-container">
+                    ${saleBadgeHTML}
+                    <img src="${product.imageUrl}" alt="${product.name}" onerror="this.onerror=null;this.src='${placeholderImage}';">
                 </div>
-                <a href="#" class="view-product-btn">Comprar</a>
+                <div class="product-info">
+                    <span class="product-brand-tag">${product.brand}</span>
+                    <h3 class="product-name">${product.name}</h3>
+                    <div class="product-pricing">
+                        ${priceHTML}
+                    </div>
+                    <span class="view-product-btn">Ver Detalles</span>
+                </div>
             </div>
         `;
-        return card;
+        return cardLink;
     }
 
-    /**
-     * Configura los listeners para los controles de búsqueda y filtro.
-     */
     function setupEventListeners() {
         searchInput.addEventListener('input', handleFilterChange);
         categorySelect.addEventListener('change', handleFilterChange);
     }
 
-    /**
-     * Maneja los cambios en los filtros, actualizando la vista de productos.
-     */
     function handleFilterChange() {
         const searchTerm = searchInput.value.toLowerCase().trim();
         const selectedCategory = categorySelect.value;
 
         let filteredProducts = allProducts;
 
-        // 1. Filtrar por categoría
         if (selectedCategory !== 'todos') {
             filteredProducts = filteredProducts.filter(p => p.category.toLowerCase() === selectedCategory);
         }
 
-        // 2. Filtrar por término de búsqueda (en nombre o marca)
         if (searchTerm) {
             filteredProducts = filteredProducts.filter(p => 
                 p.name.toLowerCase().includes(searchTerm) || 
                 p.brand.toLowerCase().includes(searchTerm)
             );
         }
-
         renderProducts(filteredProducts);
     }
 
-    // --- INICIO DE LA EJECUCIÓN ---
     initializeCatalog();
 });

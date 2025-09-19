@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- El título se actualizará dinámicamente con JS -->
+    <title>Cargando producto... - Bike Stunt Importados</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+
+    <!-- Reutilizamos los estilos existentes y añadimos los nuevos para esta página -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="catalogo.css">
+    <link rel="stylesheet" href="producto.css">
+</head>
+<body>
+
+    <header id="header" class="header">
+        <div class="container">
+            <a href="index.html" class="logo">Stunt<span>Importados</span></a>
+            <nav class="main-nav">
+                <a href="index.html">Inicio</a>
+                <a href="catalogo.html">Catálogo</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="product-main-content" class="hidden">
+        <!-- SECCIÓN PRINCIPAL DEL PRODUCTO -->
+        <section id="product-detail-section">
+            <div class="container">
+                <div class="product-layout">
+                    <!-- Columna Izquierda: Galería de Imágenes -->
+                    <div class="product-gallery">
+                        <div class="main-image-container">
+                            <img id="main-product-image" src="https://placehold.co/600x600/f0f0f0/333?text=..." alt="Imagen principal del producto">
+                        </div>
+                        <!-- Las miniaturas se generarán con JS si existen en el Sheet -->
+                        <div id="thumbnail-gallery" class="thumbnail-gallery"></div>
+                    </div>
+
+                    <!-- Columna Derecha: Detalles y Acciones -->
+                    <div class="product-details">
+                        <span id="product-brand" class="product-brand-tag"></span>
+                        <h1 id="product-name"></h1>
+                        <div id="product-availability" class="availability"></div>
+                        
+                        <div id="product-pricing" class="product-pricing-detail"></div>
+
+                        <div class="actions">
+                            <a id="primary-action-btn" href="#" class="btn btn-primary">
+                                <i class="fa-brands fa-whatsapp"></i> Consultar por WhatsApp
+                            </a>
+                            <button id="secondary-action-btn" class="btn btn-secondary">
+                                <i class="fa-regular fa-heart"></i>
+                                <span>Guardar</span>
+                            </button>
+                        </div>
+
+                        <div class="product-specs">
+                            <h4>Especificaciones</h4>
+                            <ul id="specs-list">
+                                <!-- Los detalles se insertarán aquí con JS -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DESCRIPCIÓN EXTENDIDA -->
+        <section id="product-description-section" class="section-alt">
+            <div class="container">
+                <h2 class="section-title-small">Descripción del Producto</h2>
+                <p id="product-description-text"></p>
+            </div>
+        </section>
+
+        <!-- PRODUCTOS RELACIONADOS -->
+        <section id="related-products-section">
+            <div class="container">
+                <h2 class="section-title-small">También te podría interesar</h2>
+                <div id="related-products-grid" class="product-grid">
+                    <!-- Las tarjetas de productos relacionados se insertarán aquí -->
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Mensaje de Carga Global -->
+    <div id="page-loader" class="loader-container">
+        <div class="spinner"></div>
+        <p class="catalog-message">Cargando producto...</p>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 Bike Stunt Importados. Creado con pasión por el Stunt.</p>
+        </div>
+    </footer>
+    
+    <!-- Lógica de la página de producto -->
+    <script src="producto.js"></script>
+</body>
+</html>

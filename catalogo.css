@@ -118,6 +118,11 @@ body.dark-theme #catalog-controls {
     padding-top: 100%;
     position: relative;
     overflow: hidden;
+    /* OPTIMIZACIÓN: Usar el placeholder como fondo para una carga instantánea. */
+    background-color: #f0f0f0;
+    background-image: url('https://placehold.co/400x400/f0f0f0/333?text=BSI');
+    background-size: cover;
+    background-position: center;
 }
 
 .product-image-container img {
@@ -127,11 +132,20 @@ body.dark-theme #catalog-controls {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    /* CORRECCIÓN: La imagen real empieza invisible para el efecto de fundido. */
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out, transform 0.4s ease;
 }
-.catalog-product-card:hover img {
-    transform: scale(1.05);
+
+/* CORRECCIÓN: La clase 'loaded' hace visible la imagen real con un fundido. */
+.product-image-container img.loaded {
+    opacity: 1;
 }
+
+.catalog-product-card-link:hover .product-image-container img.loaded {
+    transform: scale(1.05); /* Aplica el zoom solo a imágenes cargadas */
+}
+
 
 .sale-badge {
     position: absolute;

@@ -4,7 +4,7 @@
 #catalog-controls {
     padding: 120px 0 40px 0;
     background-color: var(--color-background);
-    border-bottom: 1px solid rgba(0,0,0,0.08);
+    border-bottom: 1px solid rgba(255,255,255,0.1); /* Borde adaptado a tema oscuro */
     transition: var(--transition-color);
 }
 body.dark-theme #catalog-controls {
@@ -61,7 +61,7 @@ body.dark-theme #catalog-controls {
 
 .category-select {
     cursor: pointer;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23a0a0a5' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e"); /* Icono de flecha en color claro */
     background-position: right 1rem center;
     background-repeat: no-repeat;
     background-size: 1.5em 1.5em;
@@ -118,9 +118,9 @@ body.dark-theme #catalog-controls {
     padding-top: 100%;
     position: relative;
     overflow: hidden;
-    /* OPTIMIZACIÓN: Usar el placeholder como fondo para una carga instantánea. */
-    background-color: #f0f0f0;
-    background-image: url('https://placehold.co/400x400/f0f0f0/333?text=BSI');
+    /* OPTIMIZACIÓN: Placeholder oscuro */
+    background-color: #333;
+    background-image: url('https://placehold.co/400x400/333/555?text=BSI');
     background-size: cover;
     background-position: center;
 }
@@ -132,18 +132,16 @@ body.dark-theme #catalog-controls {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* CORRECCIÓN: La imagen real empieza invisible para el efecto de fundido. */
     opacity: 0;
     transition: opacity 0.5s ease-in-out, transform 0.4s ease;
 }
 
-/* CORRECCIÓN: La clase 'loaded' hace visible la imagen real con un fundido. */
 .product-image-container img.loaded {
     opacity: 1;
 }
 
 .catalog-product-card-link:hover .product-image-container img.loaded {
-    transform: scale(1.05); /* Aplica el zoom solo a imágenes cargadas */
+    transform: scale(1.05);
 }
 
 
@@ -225,7 +223,7 @@ body.dark-theme #catalog-controls {
     background-color: var(--color-brazil-green);
 }
 
-/* --- ESTILOS PARA EL STOCK DEL CATÁLOGO --- */
+/* --- ESTILOS PARA EL STOCK DEL CATÁLOGO (TEMA OSCURO) --- */
 #product-grid .product-stock-status {
     display: flex;
     align-items: center;
@@ -239,18 +237,18 @@ body.dark-theme #catalog-controls {
 }
 
 #product-grid .product-stock-status.stock-available {
-    color: var(--color-brazil-green);
-    background-color: #e6f5ec;
+    color: #2ecc71; /* Verde más brillante para mejor visibilidad */
+    background-color: rgba(46, 204, 113, 0.15);
 }
 
 #product-grid .product-stock-status.stock-low {
-    color: #e88500;
-    background-color: #fff6e5;
+    color: #f39c12; /* Naranja más brillante */
+    background-color: rgba(243, 156, 18, 0.15);
 }
 
 #product-grid .product-stock-status.stock-out {
-    color: #999;
-    background-color: #f5f5f5;
+    color: #888;
+    background-color: rgba(136, 136, 136, 0.15);
 }
 
 
@@ -263,7 +261,7 @@ body.dark-theme #catalog-controls {
     text-align: center;
 }
 .spinner {
-    border: 4px solid rgba(0, 0, 0, 0.1);
+    border: 4px solid rgba(255, 255, 255, 0.1);
     width: 36px;
     height: 36px;
     border-radius: 50%;
@@ -275,54 +273,16 @@ body.dark-theme #catalog-controls {
 
 /* --- DISEÑO RESPONSIVO PARA EL CATÁLOGO --- */
 @media (max-width: 640px) {
-    /* Hacemos la grilla más compacta en móviles para que quepan 2 columnas */
     #product-grid {
         grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
         gap: 15px;
     }
-
-    /* Reducimos el padding interno de la tarjeta */
-    .product-info {
-        padding: 15px;
-    }
-
-    /* Ajustamos los tamaños de fuente para que no se desborden */
-    .product-name {
-        font-size: 0.9rem;
-        margin-bottom: 10px;
-    }
-
-    .product-price {
-        font-size: 1.2rem;
-    }
-    
-    .original-price {
-        font-size: 0.8rem;
-    }
-    
-    .product-pricing {
-        gap: 8px;
-    }
-
-    #product-grid .product-stock-status {
-        font-size: 0.7rem;
-        padding: 4px 8px;
-        margin-bottom: 10px;
-        gap: 4px;
-    }
-
-    .view-product-btn {
-        padding: 10px;
-        font-size: 0.8rem;
-        border-radius: 10px;
-    }
-
-    .sale-badge {
-        font-size: 0.7rem;
-        padding: 4px 8px;
-        border-radius: 6px;
-        top: 10px;
-        left: 10px;
-    }
+    .product-info { padding: 15px; }
+    .product-name { font-size: 0.9rem; margin-bottom: 10px; }
+    .product-price { font-size: 1.2rem; }
+    .original-price { font-size: 0.8rem; }
+    .product-pricing { gap: 8px; }
+    #product-grid .product-stock-status { font-size: 0.7rem; padding: 4px 8px; margin-bottom: 10px; gap: 4px; }
+    .view-product-btn { padding: 10px; font-size: 0.8rem; border-radius: 10px; }
+    .sale-badge { font-size: 0.7rem; padding: 4px 8px; border-radius: 6px; top: 10px; left: 10px; }
 }
-

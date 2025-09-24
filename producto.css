@@ -77,7 +77,7 @@
 .product-option-section {
     margin-bottom: 30px;
     padding-bottom: 30px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15); /* Borde adaptado */
 }
 .product-option-section h4 {
     font-size: 1.1rem;
@@ -92,7 +92,7 @@
     height: 36px;
     border-radius: 50%;
     cursor: pointer;
-    border: 2px solid #eee;
+    border: 2px solid #444; /* Borde adaptado */
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     display: inline-block;
 }
@@ -108,7 +108,7 @@
     background-color: var(--color-surface);
     border-radius: 12px;
     width: fit-content;
-    border: 1px solid #ddd;
+    border: 1px solid #444; /* Borde adaptado */
 }
 .quantity-btn {
     background: none;
@@ -128,8 +128,9 @@
     font-weight: 700;
     -moz-appearance: textfield;
     background: transparent;
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
+    color: var(--color-text-primary);
+    border-left: 1px solid #444; /* Borde adaptado */
+    border-right: 1px solid #444; /* Borde adaptado */
     transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 /* NUEVO: Animación para el input de cantidad */
@@ -153,7 +154,7 @@
 }
 .btn:hover { transform: translateY(-3px); }
 .btn.btn-primary {
-    background-color: #25D366; /* Color de WhatsApp */
+    background-color: #25D366; /* Color de WhatsApp se mantiene */
     color: white;
     box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
 }
@@ -162,7 +163,7 @@
 .product-specs { padding-top: 25px; }
 .product-specs h4 { font-size: 1.1rem; margin-bottom: 15px; }
 .product-specs ul { list-style: none; padding-left: 0; }
-.product-specs li { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f5f5f5; font-size: 0.95rem; }
+.product-specs li { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.95rem; } /* Borde adaptado */
 .product-specs li span:first-child { color: var(--color-text-secondary); }
 .product-specs li span:last-child { font-weight: 500; }
 
@@ -192,4 +193,3 @@
     .product-details h1 { font-size: 2rem; }
     .description-wrapper { padding: 30px 25px; }
 }
-
